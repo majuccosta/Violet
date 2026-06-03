@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Igualdade de Gênero no Ambiente Acadêmico — UniCEUB Taguatinga</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --roxo:       #4A148C;
+    --roxo-mid:   #7B1FA2;
+    --roxo-light: #EDE7F6;
+    --pink:       #AD1457;
+    --pink-light: #FCE4EC;
+    --teal:       #00695C;
+    --teal-light: #E0F2F1;
+    --amber:      #E65100;
+    --gray:       #F5F0FB;
+    --text:       #1A0030;
+    --muted:      #6B5880;
+    --white:      #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #FAF7FF;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--roxo);
+    padding: .75rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 20px rgba(74,20,140,.3);
+  }
+  .nav-brand { color: #fff; font-family: 'DM Serif Display', serif; font-size: 1.1rem; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { color: #CE93D8; font-size: .85rem; text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--roxo);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 50%, rgba(173,20,87,.25) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 40%, rgba(206,147,216,.15) 0%, transparent 60%);
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,.12);
+    color: #CE93D8;
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .35rem .9rem;
+    border-radius: 100px;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: .75rem;
+    position: relative;
+  }
+  .hero h1 em { color: #F48FB1; font-style: italic; }
+  .hero-sub {
+    color: #CE93D8;
+    font-size: 1rem;
+    max-width: 560px;
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+  .hero-authors {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem;
+    position: relative;
+  }
+  .author-pill {
+    background: rgba(255,255,255,.1);
+    color: #E1BEE7;
+    font-size: .8rem;
+    padding: .3rem .85rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,.15);
+  }
+
+  /* ── MAIN ── */
+  main { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+  /* ── SECTION HEADER ── */
+  .section-header { margin: 3rem 0 1.25rem; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: var(--roxo-light);
+    color: var(--roxo-mid);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .28rem .75rem;
+    border-radius: 100px;
+    margin-bottom: .5rem;
+  }
+  .section-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); }
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--roxo);
+    line-height: 1.2;
+  }
+  .section-header p { color: var(--muted); font-size: .92rem; margin-top: .3rem; }
+
+  /* ── STAT CARDS ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid #E8DFF5;
+    border-radius: 16px;
+    padding: 1.25rem 1.25rem 1rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(74,20,140,.1); }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; line-height: 1; margin-bottom: .4rem; }
+  .stat-label { font-size: .82rem; color: var(--muted); line-height: 1.45; }
+  .stat-src { font-size: .7rem; color: #B39DDB; margin-top: .5rem; }
+  .c-roxo { color: var(--roxo); }
+  .c-pink  { color: var(--pink); }
+  .c-teal  { color: var(--teal); }
+  .c-amber { color: var(--amber); }
+
+  /* ── CHART CARD ── */
+  .chart-card {
+    background: var(--white);
+    border: 1px solid #E8DFF5;
+    border-radius: 16px;
+    padding: 1.4rem 1.5rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .chart-card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: .2rem; }
+  .chart-src { font-size: .72rem; color: #B39DDB; margin-bottom: .85rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: .85rem; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: .78rem; color: var(--muted); }
+  .legend-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .chart-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: linear-gradient(135deg, var(--roxo-light) 0%, #F8F0FF 100%);
+    border: 1px solid #D1B3FF;
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    margin: 2rem 0;
+  }
+  .highlight h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--roxo); margin-bottom: .75rem; }
+  .highlight-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+  .highlight-list li { font-size: .9rem; color: var(--text); display: flex; gap: .6rem; }
+  .highlight-list li::before { content: '→'; color: var(--pink); font-weight: 600; flex-shrink: 0; }
+
+  /* ── SOURCES ── */
+  .sources-section { margin-top: 3rem; }
+  .sources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem; margin-top: 1rem; }
+  .source-card {
+    background: var(--white);
+    border: 1px solid #E8DFF5;
+    border-radius: 12px;
+    padding: .9rem 1rem;
+    text-decoration: none;
+    display: flex; align-items: flex-start; gap: .6rem;
+    transition: background .2s, border-color .2s;
+  }
+  .source-card:hover { background: var(--roxo-light); border-color: #C5A3FF; }
+  .source-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .source-name { font-size: .8rem; font-weight: 600; color: var(--roxo); }
+  .source-desc { font-size: .73rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--roxo);
+    color: #CE93D8;
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: .82rem;
+  }
+  footer strong { color: #fff; }
+
+  /* ── FADE IN ── */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hero { padding: 3.5rem 1.25rem 3rem; }
+    main { padding: 2rem 1rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Projeto Integrador</span>
+  <div class="nav-links">
+    <a href="#universidades">Universidades</a>
+    <a href="#ligue180">Ligue 180</a>
+    <a href="#datasenado">DataSenado</a>
+    <a href="#subnotificacao">Subnotificação</a>
+    <a href="#fontes">Fontes</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-tag">UniCEUB Taguatinga — Projeto Integrador</div>
+  <h1>Igualdade de Gênero<br>no Ambiente <em>Acadêmico</em></h1>
+  <p class="hero-sub">Embasamento com dados oficiais — Gov.br · Senado Federal · TCU · IPEA — 2024/2025</p>
+  <div class="hero-authors">
+    <span class="author-pill">Laura Venancio Martins</span>
+    <span class="author-pill">Maria Julia de Carvalho Costa</span>
+    <span class="author-pill">Sara Ramos Scalia</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── SEÇÃO 1: UNIVERSIDADES ── -->
+  <div class="section-header fade-in" id="universidades">
+    <div class="section-tag"><span class="dot"></span> TCU — Auditoria 2024</div>
+    <h2>Assédio nas Universidades Federais</h2>
+    <p>O Tribunal de Contas da União auditou as 69 universidades federais do Brasil em 2023–2024.</p>
+  </div>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-num c-roxo">641</div>
+      <div class="stat-label">Processos disciplinares abertos em 57 das 69 universidades entre 2022 e 2024</div>
+      <div class="stat-src">TCU, 2024</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-pink">60%</div>
+      <div class="stat-label">Das universidades federais sem política institucionalizada de combate ao assédio</div>
+      <div class="stat-src">TCU, 2024</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-roxo">44,8%</div>
+      <div class="stat-label">Aumento nos processos judiciais por assédio sexual entre 2021 e 2023</div>
+      <div class="stat-src">TCU / TST, 2024</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-pink">10%</div>
+      <div class="stat-label">Apenas 10% dos casos de assédio chegam a algum registro oficial</div>
+      <div class="stat-src">TCU, 2024</div>
+    </div>
+  </div>
+
+  <div class="chart-2col fade-in">
+    <div class="chart-card">
+      <h3>Situação das universidades federais (%)</h3>
+      <div class="chart-src">Fonte: portal.tcu.gov.br</div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-sq" style="background:#AD1457"></span>Sem política</div>
+        <div class="legend-item"><span class="legend-sq" style="background:#6A1B9A"></span>Sem capacitação</div>
+        <div class="legend-item"><span class="legend-sq" style="background:#CE93D8"></span>Sem acolhimento</div>
+        <div class="legend-item"><span class="legend-sq" style="background:#00695C"></span>Com políticas</div>
+      </div>
+      <div style="position:relative;height:200px">
+        <canvas id="c1" role="img" aria-label="Situação das universidades federais no combate ao assédio">60% sem política, 72% sem capacitação, 74% sem acolhimento, 28% com políticas.</canvas>
+      </div>
+    </div>
+
+    <div class="chart-card" id="ligue180">
+      <h3>Ligue 180 no Distrito Federal — evolução</h3>
+      <div class="chart-src">Fonte: gov.br — Secretaria de Comunicação Social</div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-sq" style="background:#6A1B9A"></span>Denúncias</div>
+        <div class="legend-item"><span class="legend-sq" style="background:#AD1457"></span>Atendimentos</div>
+      </div>
+      <div style="position:relative;height:200px">
+        <canvas id="c5" role="img" aria-label="Evolução do Ligue 180 no Distrito Federal 2023 e 2024">Denúncias: 2723 em 2023 e 2923 em 2024. Atendimentos: 16875 em 2023 e 23148 em 2024.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 2: LIGUE 180 ── -->
+  <div class="section-header fade-in">
+    <div class="section-tag"><span class="dot"></span> Gov.br — Ministério das Mulheres 2024</div>
+    <h2>Central Ligue 180 — Dados Nacionais</h2>
+    <p>Balanço oficial de 2024 publicado pelo Ministério das Mulheres.</p>
+  </div>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-num c-roxo">132.084</div>
+      <div class="stat-label">Total de denúncias recebidas pelo Ligue 180 em 2024</div>
+      <div class="stat-src">Gov.br, 2024</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-pink">86.105</div>
+      <div class="stat-label">Denúncias anônimas — 65% do total</div>
+      <div class="stat-src">Gov.br, 2024</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-teal">+37,1%</div>
+      <div class="stat-label">Crescimento nos atendimentos no Distrito Federal em 2024</div>
+      <div class="stat-src">Gov.br / DF, 2024</div>
+    </div>
+  </div>
+
+  <div class="chart-card fade-in">
+    <h3>Tipos de denúncias ao Ligue 180 (2024)</h3>
+    <div class="chart-src">Fonte: gov.br — Ministério das Mulheres — Total: 132.084 denúncias</div>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-sq" style="background:#6A1B9A"></span>Anônimas — 86.105 (65%)</div>
+      <div class="legend-item"><span class="legend-sq" style="background:#F48FB1"></span>Pela própria vítima — 38.470 (29%)</div>
+      <div class="legend-item"><span class="legend-sq" style="background:#BDBDBD"></span>Por terceiros — 7.509 (6%)</div>
+    </div>
+    <div style="position:relative;height:220px;max-width:340px;margin:0 auto">
+      <canvas id="c2" role="img" aria-label="Tipos de denúncias ao Ligue 180 em 2024">86105 anônimas, 38470 pela própria vítima, 7509 por terceiros.</canvas>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 3: DATASENADO ── -->
+  <div class="section-header fade-in" id="datasenado">
+    <div class="section-tag"><span class="dot"></span> DataSenado / Observatório da Mulher — 2025</div>
+    <h2>Pesquisa Nacional de Violência contra a Mulher</h2>
+    <p>Levantamento com mais de 21 mil mulheres, maio–julho de 2025. A maior série histórica do país sobre o tema.</p>
+  </div>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-num c-roxo">3,7 mi</div>
+      <div class="stat-label">Brasileiras vítimas de violência doméstica ou familiar em 2025</div>
+      <div class="stat-src">DataSenado, 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-pink">61%</div>
+      <div class="stat-label">Das mulheres agredidas não registraram boletim de ocorrência</div>
+      <div class="stat-src">Senado / Panorama VCM</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-amber">79%</div>
+      <div class="stat-label">Das brasileiras acreditam que a violência contra a mulher aumentou</div>
+      <div class="stat-src">DataSenado, 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num c-teal">87,5%</div>
+      <div class="stat-label">Das estudantes usariam o aplicativo para denúncias anônimas*</div>
+      <div class="stat-src">*Pesquisa de campo do projeto</div>
+    </div>
+  </div>
+
+  <div class="chart-2col fade-in">
+    <div class="chart-card">
+      <h3>Por que as mulheres não denunciam (%)</h3>
+      <div class="chart-src">Fonte: senado.leg.br — DataSenado (2025)</div>
+      <div style="position:relative;height:230px">
+        <canvas id="c3" role="img" aria-label="Motivos pelos quais as mulheres não denunciam violência">Preocupação com filhos 17%, descrença na punição 14%, acha que não vai repetir 13%, medo de represálias 11%, vergonha 9%.</canvas>
+      </div>
+    </div>
+
+    <div class="chart-card" id="subnotificacao">
+      <h3>Subnotificação — casos reais x registrados</h3>
+      <div class="chart-src">Fonte: ipea.gov.br / portal.tcu.gov.br</div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-sq" style="background:#AD1457"></span>Não registrados</div>
+        <div class="legend-item"><span class="legend-sq" style="background:#00695C"></span>Registrados oficialmente</div>
+      </div>
+      <div style="position:relative;height:230px">
+        <canvas id="c4" role="img" aria-label="Subnotificação de estupros e assédio universitário">Estupros: 94% não registrados, 6% registrados. Assédio universitário: 90% não registrados, 10% registrados.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HIGHLIGHT ── -->
+  <div class="highlight fade-in">
+    <h3>Por que o aplicativo é necessário</h3>
+    <ul class="highlight-list">
+      <li>As universidades falham: 60% sem política, 51 sem protocolo de acolhimento, apenas 10% dos casos registrados</li>
+      <li>As vítimas preferem anonimato: 65% das denúncias ao Ligue 180 já são anônimas — validando a proposta</li>
+      <li>Jovens de 18 a 29 anos são o grupo de maior risco de violência sexual no Brasil — exatamente o público universitário</li>
+      <li>No DF, atendimentos cresceram 37% em 2024 — urgência regional confirmada</li>
+      <li>61% das vítimas não registram B.O. — o canal institucional falha; um canal independente é necessário</li>
+      <li>87,5% das estudantes usariam o aplicativo — alta receptividade comprovada pela pesquisa de campo</li>
+    </ul>
+  </div>
+
+  <!-- ── FONTES ── -->
+  <div class="sources-section fade-in" id="fontes">
+    <div class="section-header">
+      <div class="section-tag"><span class="dot"></span> Referências</div>
+      <h2>Fontes Oficiais Consultadas</h2>
+    </div>
+    <div class="sources-grid">
+      <a class="source-card" href="https://portal.tcu.gov.br/imprensa/noticias/tcu-avalia-praticas-de-combate-ao-assedio-em-universidades-federais" target="_blank" rel="noopener">
+        <span class="source-icon">🏛️</span>
+        <div>
+          <div class="source-name">TCU — Auditoria Universidades (2024)</div>
+          <div class="source-desc">portal.tcu.gov.br</div>
+        </div>
+      </a>
+      <a class="source-card" href="https://www.gov.br/secom/pt-br/assuntos/noticias-regionalizadas/ligue-180-balanco-2024/no-distrito-federal-ligue-180-registra-aumento-de-37-nos-atendimentos-em-2024" target="_blank" rel="noopener">
+        <span class="source-icon">📞</span>
+        <div>
+          <div class="source-name">Ligue 180 Balanço 2024 — DF</div>
+          <div class="source-desc">gov.br — Ministério das Mulheres</div>
+        </div>
+      </a>
+      <a class="source-card" href="https://www12.senado.leg.br/noticias/materias/2025/11/24/datasenado-violencia-de-genero-atinge-3-7-milhoes-de-brasileiras" target="_blank" rel="noopener">
+        <span class="source-icon">📊</span>
+        <div>
+          <div class="source-name">DataSenado — Pesquisa Nacional VCM</div>
+          <div class="source-desc">senado.leg.br (2025)</div>
+        </div>
+      </a>
+      <a class="source-card" href="https://www12.senado.leg.br/institucional/procuradoria/noticias/violencia-de-genero-no-brasil" target="_blank" rel="noopener">
+        <span class="source-icon">⚖️</span>
+        <div>
+          <div class="source-name">Violência de Gênero no Brasil</div>
+          <div class="source-desc">Senado Federal — Procuradoria</div>
+        </div>
+      </a>
+      <a class="source-card" href="https://www.ipea.gov.br/portal/categorias/45-todas-as-noticias/noticias/13541-brasil-tem-cerca-de-822-mil-casos-de-estupro-a-cada-ano-dois-por-minuto" target="_blank" rel="noopener">
+        <span class="source-icon">🔬</span>
+        <div>
+          <div class="source-name">IPEA — 822 mil estupros/ano</div>
+          <div class="source-desc">ipea.gov.br</div>
+        </div>
+      </a>
+      <a class="source-card" href="https://www.senado.leg.br/institucional/datasenado/relatorio_online/pesquisa_violencia_domestica/2024/interativo.html" target="_blank" rel="noopener">
+        <span class="source-icon">📋</span>
+        <div>
+          <div class="source-name">Comparativo Nacional VCM</div>
+          <div class="source-desc">Senado — Panorama (2024)</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>Projeto Integrador — Igualdade de Gênero no Ambiente Acadêmico</strong><br>
+  UniCEUB Taguatinga · Laura Venancio Martins · Maria Julia de Carvalho Costa · Sara Ramos Scalia
+</footer>
+
+<script>
+  // Fade-in ao scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Cores
+  const ROXO = '#6A1B9A', PINK = '#AD1457', PINK_L = '#F48FB1';
+  const ROXO_L = '#CE93D8', TEAL = '#00695C', AMBER = '#E65100', CINZA = '#BDBDBD';
+  const gridColor = 'rgba(0,0,0,0.06)';
+  const tickColor = '#888';
+
+  // Gráfico 1 — Situação universidades
+  new Chart(document.getElementById('c1'), {
+    type: 'bar',
+    data: {
+      labels: ['Sem política', 'Sem capacitação', 'Sem acolhimento', 'Com políticas'],
+      datasets: [{ data: [60,72,74,28], backgroundColor: [PINK,ROXO,ROXO_L,TEAL], borderRadius: 5, borderSkipped: false }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.raw + '%' } } },
+      scales: {
+        x: { max: 100, ticks: { color: tickColor, font: { size: 11 }, callback: v => v + '%' }, grid: { color: gridColor } },
+        y: { ticks: { color: tickColor, font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Gráfico 2 — Tipos de denúncias
+  new Chart(document.getElementById('c2'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Anônimas','Pela própria vítima','Por terceiros'],
+      datasets: [{ data: [86105,38470,7509], backgroundColor: [ROXO,PINK_L,CINZA], borderColor: '#FAF7FF', borderWidth: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '62%',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.label + ': ' + c.raw.toLocaleString('pt-BR') } } }
+    }
+  });
+
+  // Gráfico 3 — Por que não denunciam
+  new Chart(document.getElementById('c3'), {
+    type: 'bar',
+    data: {
+      labels: ['Preoc. com\nfilhos','Descrença na\npunição','Acha que não\nvai repetir','Medo de\nrepresálias','Vergonha'],
+      datasets: [{ data: [17,14,13,11,9], backgroundColor: [PINK,ROXO,ROXO_L,AMBER,CINZA], borderRadius: 5, borderSkipped: false }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.raw + '%' } } },
+      scales: {
+        x: { ticks: { color: tickColor, font: { size: 10 }, maxRotation: 0 }, grid: { display: false } },
+        y: { ticks: { color: tickColor, font: { size: 11 }, callback: v => v + '%' }, grid: { color: gridColor } }
+      }
+    }
+  });
+
+  // Gráfico 4 — Subnotificação
+  new Chart(document.getElementById('c4'), {
+    type: 'bar',
+    data: {
+      labels: ['Estupros (IPEA)','Assédio universitário (TCU)'],
+      datasets: [
+        { label: 'Registrados', data: [6,10], backgroundColor: TEAL, borderRadius: 0, borderSkipped: false },
+        { label: 'Não registrados', data: [94,90], backgroundColor: PINK, borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + c.raw + '%' } } },
+      scales: {
+        x: { stacked: true, ticks: { color: tickColor, font: { size: 11 } }, grid: { display: false } },
+        y: { stacked: true, max: 110, ticks: { color: tickColor, font: { size: 11 }, callback: v => v + '%' }, grid: { color: gridColor } }
+      }
+    }
+  });
+
+  // Gráfico 5 — Ligue 180 DF
+  new Chart(document.getElementById('c5'), {
+    type: 'bar',
+    data: {
+      labels: ['2023','2024'],
+      datasets: [
+        { label: 'Denúncias', data: [2723,2923], backgroundColor: ROXO, borderRadius: 5, borderSkipped: false },
+        { label: 'Atendimentos', data: [16875,23148], backgroundColor: PINK, borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + c.raw.toLocaleString('pt-BR') } } },
+      scales: {
+        x: { ticks: { color: tickColor, font: { size: 12 } }, grid: { display: false } },
+        y: { ticks: { color: tickColor, font: { size: 11 }, callback: v => v.toLocaleString('pt-BR') }, grid: { color: gridColor } }
+      }
+    }
+  });
+</script>
+</body>
+</html>
