@@ -1,6 +1,6 @@
 # Violet
 
-# Tema: Igualdade de Gênero no Ambiente Acadêmico
+##Tema: Igualdade de Gênero no Ambiente Acadêmico
 
 A igualdade de gênero é um tema central nas discussões contemporâneas sobre direitos humanos e justiça social. No ambiente acadêmico, essa pauta ganha ainda mais relevância, pois escolas e universidades devem ser espaços seguros e inclusivos, onde mulheres possam desenvolver seu potencial sem medo de discriminação ou violência.
 
