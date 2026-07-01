@@ -1,0 +1,8 @@
+# Dependências do TREINO (gerar o modelo e o .tflite)
+#   pip install -r requirements-treino.txt
+tensorflow-cpu    # treino em CPU; no Windows pode usar 'tensorflow'
+numpy
+pillow
+scikit-learn
+matplotlib
+kagglehub         # baixa o dataset do Kaggle
