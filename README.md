@@ -12,12 +12,12 @@ Diante desse cenário, torna-se evidente a necessidade de ferramentas independen
 
 Inspirado no aplicativo **PenhaS**, referência nacional no enfrentamento à violência contra a mulher, o projeto utiliza essa solução consolidada como benchmarking, adaptando suas funcionalidades ao ambiente acadêmico. O diferencial é permitir que as denúncias sejam encaminhadas **diretamente para a Delegacia da Mulher**, sem depender da coordenação da instituição de ensino — que tantas vezes falha em agir. As denúncias também podem ser feitas **anonimamente**, assegurando privacidade e reduzindo o medo de represálias.
 
-## Funcionalidades
+##Funcionalidades
 
 - **Botão de emergência inteligente**  
   Ao ser acionado, envia a localização em tempo real, grava áudio, captura foto ou vídeo e encaminha tudo automaticamente para contatos de confiança, centrais de apoio ou diretamente para o **Ligue 180**, criando provas imediatas do ocorrido.
 
-- ** Denúncias anônimas com evidências**  
+- **Denúncias anônimas com evidências**  
   Permite anexar prints, fotos, áudios e vídeos de forma criptografada, gerando um protocolo de acompanhamento sem expor a identidade da vítima.
 
 - **IA de apoio emocional**  
