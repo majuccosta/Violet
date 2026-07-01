@@ -1,0 +1,17 @@
+# Ambiente Python
+.venv/
+__pycache__/
+*.pyc
+
+# Dataset (grande e reprodutível pelo treinar.py) e caches
+data/
+features_cache.npz
+_saved_model_tmp/
+
+# Credenciais do Kaggle — NUNCA versionar
+kaggle.json
+.kaggle/
+
+# Sistema
+.DS_Store
+Thumbs.db

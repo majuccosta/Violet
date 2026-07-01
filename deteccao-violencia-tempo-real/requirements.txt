@@ -1,0 +1,7 @@
+# Dependências da DEMO ao vivo (rode no Windows, onde a webcam funciona)
+#   pip install -r requirements.txt
+opencv-python
+numpy
+ai-edge-litert    # runtime leve (LiteRT) pra rodar o .tflite — funciona até no Python 3.14
+mediapipe         # usado pelo detector por pose (plano B)
+# Obs.: NÃO precisa de tensorflow aqui; o ai-edge-litert basta pra rodar o modelo.
